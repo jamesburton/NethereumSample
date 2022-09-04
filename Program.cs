@@ -15,7 +15,7 @@ Console.WriteLine($"environment={environment}");
 var configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", true, true)
-    .AddJsonFile($"appsettings.{environment}.json")
+    .AddJsonFile($"appsettings.{environment}.json", true, true)
     .AddEnvironmentVariables()
     .AddCommandLine(args)
     .Build();
@@ -29,6 +29,15 @@ var configuration = new ConfigurationBuilder()
 
 string endpointUrl = configuration.GetRequiredSection("Web3EndpointUrl").Value;
 string ethAddress = configuration.GetRequiredSection("EthereumAddress").Value;
+
+if(string.IsNullOrEmpty(endpointUrl)) {
+    Console.WriteLine($"ERROR: missing application setting \"Web3EndpointUrl\", please set this value in appsettings.{environment}.json");
+    Environment.Exit((int)ErrorCodes.Missing_Web3EndpointUrl_AppSetting);
+}
+if(string.IsNullOrEmpty(ethAddress)) {
+    Console.WriteLine($"ERROR: missing application setting \"EthereumAddress\", please set this value in appsettings.{environment}.json");
+    Environment.Exit((int)ErrorCodes.Missing_EthereumAddress_AppSetting);
+}
 
 // GetAccountBalance().Wait();
 // await GetAccountBalance();
