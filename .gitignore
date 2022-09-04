@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Exclude environment-specific appsettings (e.g. appsettings.<env>.json) files
+appsettings.*.json
+
 # User-specific files
 *.rsuser
 *.suo
